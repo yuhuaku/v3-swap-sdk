@@ -436,7 +436,7 @@ function currencyEquals(currencyA, currencyB) {
     return currencyA === currencyB;
   }
 }
-var WETH = (_WETH = {}, _WETH[ChainId.MAINNET] = /*#__PURE__*/new Token(ChainId.MAINNET, '0xF0f5061B617eb45EA7E303AaF6f95E027919F7d6', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.SEPOLIA] = /*#__PURE__*/new Token(ChainId.SEPOLIA, '0xF0f5061B617eb45EA7E303AaF6f95E027919F7d6', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.HOPE] = /*#__PURE__*/new Token(ChainId.HOPE, '0xF0f5061B617eb45EA7E303AaF6f95E027919F7d6', 18, 'WETH', 'Wrapper ETH'), _WETH);
+var WETH = (_WETH = {}, _WETH[ChainId.MAINNET] = /*#__PURE__*/new Token(ChainId.MAINNET, '0xF0f5061B617eb45EA7E303AaF6f95E027919F7d6', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.SEPOLIA] = /*#__PURE__*/new Token(ChainId.SEPOLIA, '0xf531b8f309be94191af87605cfbf600d71c2cfe0', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.HOPE] = /*#__PURE__*/new Token(ChainId.HOPE, '0xa2145C4c70134603e8A5E9b6bAFCE84F25111234', 18, 'WETH', 'Wrapper ETH'), _WETH);
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);
