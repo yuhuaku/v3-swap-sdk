@@ -36,7 +36,7 @@ var Rounding;
   Rounding[Rounding["ROUND_UP"] = 2] = "ROUND_UP";
 })(Rounding || (Rounding = {}));
 
-var FACTORY_ADDRESS = '0x9A90BC66B65761A1278Ba0fDeAabEEdf8696a809';
+var FACTORY_ADDRESS = '0x8e04EBEfD05A4119809d70Ea295Bede6b544e13f';
 var INIT_CODE_HASH = '0xcfe88c863ebacf019e42294b41966e8737253c46917928e60a3240bc24d24e73';
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
@@ -436,7 +436,7 @@ function currencyEquals(currencyA, currencyB) {
     return currencyA === currencyB;
   }
 }
-var WETH = (_WETH = {}, _WETH[ChainId.MAINNET] = /*#__PURE__*/new Token(ChainId.MAINNET, '0xF0f5061B617eb45EA7E303AaF6f95E027919F7d6', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.SEPOLIA] = /*#__PURE__*/new Token(ChainId.SEPOLIA, '0x32e3B2157427882f822674611c675F6e11b954ee', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.HOPE] = /*#__PURE__*/new Token(ChainId.HOPE, '0x04d25E7dD2A03ff469FD39653936f1FEeD55b530', 18, 'WETH', 'Wrapper ETH'), _WETH);
+var WETH = (_WETH = {}, _WETH[ChainId.MAINNET] = /*#__PURE__*/new Token(ChainId.MAINNET, '0xb0Ac866E8951bC07efBF738580F7f17900cebE15', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.SEPOLIA] = /*#__PURE__*/new Token(ChainId.SEPOLIA, '0xb0Ac866E8951bC07efBF738580F7f17900cebE15', 18, 'WETH', 'Wrapper ETH'), _WETH[ChainId.HOPE] = /*#__PURE__*/new Token(ChainId.HOPE, '0xb0Ac866E8951bC07efBF738580F7f17900cebE15', 18, 'WETH', 'Wrapper ETH'), _WETH);
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);
