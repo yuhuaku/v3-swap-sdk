@@ -1,6 +1,6 @@
 import JSBI from 'jsbi';
 import { BigintIsh, Rounding } from '../../constants';
-interface formatInF {
+export interface formatInF {
     groupSeparator: string;
     [key: string]: any;
 }
@@ -21,4 +21,3 @@ export declare class Fraction {
     toSignificant(significantDigits: number, format?: object, rounding?: Rounding): string;
     toFixed(decimalPlaces: number, format?: formatInF, rounding?: Rounding): string;
 }
-export {};

@@ -7,7 +7,7 @@ import toFormat from 'toformat'
 
 import { BigintIsh, Rounding, TEN, SolidityType } from '../../constants'
 import { parseBigintIsh, validateSolidityTypeInstance } from '../../utils'
-import { Fraction } from './fraction'
+import { Fraction, formatInF } from './fraction'
 
 const Big = toFormat(_Big)
 
@@ -55,7 +55,7 @@ export class CurrencyAmount extends Fraction {
 
   public toFixed(
     decimalPlaces: number = this.currency.decimals,
-    format?: object,
+    format?: formatInF,
     rounding: Rounding = Rounding.ROUND_DOWN
   ): string {
     invariant(decimalPlaces <= this.currency.decimals, 'DECIMALS')

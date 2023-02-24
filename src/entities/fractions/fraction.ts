@@ -23,7 +23,7 @@ const toFixedRounding = {
   [Rounding.ROUND_UP]: RoundingMode.RoundUp
 }
 
-interface formatInF {
+export interface formatInF {
   groupSeparator: string
   [key: string]: any
 }
