@@ -23,6 +23,11 @@ const toFixedRounding = {
   [Rounding.ROUND_UP]: RoundingMode.RoundUp
 }
 
+interface formatInF {
+  groupSeparator: string
+  [key: string]: any
+}
+
 export class Fraction {
   public readonly numerator: JSBI
   public readonly denominator: JSBI
@@ -128,10 +133,10 @@ export class Fraction {
       .toSignificantDigits(significantDigits)
     return quotient.toFormat(quotient.decimalPlaces(), format)
   }
-
+  
   public toFixed(
     decimalPlaces: number,
-    format: object = { groupSeparator: '' },
+    format: formatInF = { groupSeparator: '' },
     rounding: Rounding = Rounding.ROUND_HALF_UP
   ): string {
     invariant(Number.isInteger(decimalPlaces), `${decimalPlaces} is not an integer.`)
@@ -139,6 +144,14 @@ export class Fraction {
 
     Big.DP = decimalPlaces
     Big.RM = toFixedRounding[rounding]
-    return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format)
+    const bigResNumber = new Big(this.numerator.toString()).div(this.denominator.toString())
+    if (format && format.groupSeparator === ',') {
+      let resVal = bigResNumber.toFormat(decimalPlaces, { groupSeparator: '' })
+      if (Number(resVal) > 0 && Number(resVal) < 0.01) {
+        return '< 0.01'
+      }
+    }
+    return bigResNumber.toFormat(decimalPlaces, format)
   }
+  
 }
