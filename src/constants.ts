@@ -23,14 +23,14 @@ export enum Rounding {
 
 export const FACTORY_ADDRESS_MAP:{[chainId: number]: string} = {
   [ChainId.MAINNET]: '',
-  [ChainId.GOERLI]: '',
+  [ChainId.GOERLI]: '0xF2344563F520Fa366b35F0fED7F868AdEb5B7789',
   [ChainId.SEPOLIA]: '0x4B6cA9c75b38B2c0d282bAd5A6295a21069De50a',
   [ChainId.HOPE]: ''
 }
 
 export const INIT_CODE_HASH_MAP:{[chainId: number]: string} = {
   [ChainId.MAINNET]: '',
-  [ChainId.GOERLI]: '',
+  [ChainId.GOERLI]: '0x5df56819f9ea3fa82908f37ada1a8a2b88ea2dcea442be7f6db157f5a1e7ed7b',
   [ChainId.SEPOLIA]: '0x5df56819f9ea3fa82908f37ada1a8a2b88ea2dcea442be7f6db157f5a1e7ed7b',
   [ChainId.HOPE]: ''
 }
