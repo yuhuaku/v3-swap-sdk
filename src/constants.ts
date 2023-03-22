@@ -35,6 +35,11 @@ export const INIT_CODE_HASH_MAP:{[chainId: number]: string} = {
   [ChainId.HOPE]: '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35'
 }
 
+export const FACTORY_ADDRESS = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7'
+
+export const INIT_CODE_HASH = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35'
+
+
 export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000)
 
 // exports for internal consumption
