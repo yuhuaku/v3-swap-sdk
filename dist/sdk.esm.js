@@ -39,8 +39,6 @@ var Rounding;
 
 var FACTORY_ADDRESS_MAP = (_FACTORY_ADDRESS_MAP = {}, _FACTORY_ADDRESS_MAP[ChainId.MAINNET] = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7', _FACTORY_ADDRESS_MAP[ChainId.GOERLI] = '0x2a23e40939af1eC45694601DBDdf132a5a296d13', _FACTORY_ADDRESS_MAP[ChainId.SEPOLIA] = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7', _FACTORY_ADDRESS_MAP[ChainId.HOPE] = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7', _FACTORY_ADDRESS_MAP);
 var INIT_CODE_HASH_MAP = (_INIT_CODE_HASH_MAP = {}, _INIT_CODE_HASH_MAP[ChainId.MAINNET] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP[ChainId.GOERLI] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP[ChainId.SEPOLIA] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP[ChainId.HOPE] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP);
-var FACTORY_ADDRESS = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7';
-var INIT_CODE_HASH = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35';
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
@@ -774,7 +772,7 @@ var Pair = /*#__PURE__*/function () {
     if (((_PAIR_ADDRESS_CACHE = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE === void 0 ? void 0 : (_PAIR_ADDRESS_CACHE$t = _PAIR_ADDRESS_CACHE[tokens[0].address]) === null || _PAIR_ADDRESS_CACHE$t === void 0 ? void 0 : _PAIR_ADDRESS_CACHE$t[tokens[1].address]) === undefined) {
       var _PAIR_ADDRESS_CACHE2, _extends2, _extends3;
 
-      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = getCreate2Address(FACTORY_ADDRESS, keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH), _extends2)), _extends3));
+      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = getCreate2Address(FACTORY_ADDRESS_MAP[tokens[0].chainId], keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH_MAP[tokens[0].chainId]), _extends2)), _extends3));
     }
 
     return PAIR_ADDRESS_CACHE[tokens[0].address][tokens[1].address];
@@ -1570,5 +1568,5 @@ var Fetcher = /*#__PURE__*/function () {
   return Fetcher;
 }();
 
-export { ChainId, Currency, CurrencyAmount, ETHER, FACTORY_ADDRESS, FACTORY_ADDRESS_MAP, Fetcher, Fraction, INIT_CODE_HASH, INIT_CODE_HASH_MAP, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, Pair, Percent, Price, Rounding, Route, Router, Token, TokenAmount, Trade, TradeType, WETH, currencyEquals, inputOutputComparator, tradeComparator };
+export { ChainId, Currency, CurrencyAmount, ETHER, FACTORY_ADDRESS_MAP, Fetcher, Fraction, INIT_CODE_HASH_MAP, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, Pair, Percent, Price, Rounding, Route, Router, Token, TokenAmount, Trade, TradeType, WETH, currencyEquals, inputOutputComparator, tradeComparator };
 //# sourceMappingURL=sdk.esm.js.map

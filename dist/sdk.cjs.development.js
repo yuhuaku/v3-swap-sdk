@@ -39,8 +39,6 @@ var _FACTORY_ADDRESS_MAP, _INIT_CODE_HASH_MAP, _SOLIDITY_TYPE_MAXIMA;
 
 var FACTORY_ADDRESS_MAP = (_FACTORY_ADDRESS_MAP = {}, _FACTORY_ADDRESS_MAP[exports.ChainId.MAINNET] = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7', _FACTORY_ADDRESS_MAP[exports.ChainId.GOERLI] = '0x2a23e40939af1eC45694601DBDdf132a5a296d13', _FACTORY_ADDRESS_MAP[exports.ChainId.SEPOLIA] = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7', _FACTORY_ADDRESS_MAP[exports.ChainId.HOPE] = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7', _FACTORY_ADDRESS_MAP);
 var INIT_CODE_HASH_MAP = (_INIT_CODE_HASH_MAP = {}, _INIT_CODE_HASH_MAP[exports.ChainId.MAINNET] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP[exports.ChainId.GOERLI] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP[exports.ChainId.SEPOLIA] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP[exports.ChainId.HOPE] = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35', _INIT_CODE_HASH_MAP);
-var FACTORY_ADDRESS = '0x871bec2d6F6585172ad87FC85688Bc86A56Ea4f7';
-var INIT_CODE_HASH = '0x8c587edc53bd0ef93b6b0e6bc4ac8b7831808aa02c4f97fac3ccf1dd34d95b35';
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
@@ -774,7 +772,7 @@ var Pair = /*#__PURE__*/function () {
     if (((_PAIR_ADDRESS_CACHE = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE === void 0 ? void 0 : (_PAIR_ADDRESS_CACHE$t = _PAIR_ADDRESS_CACHE[tokens[0].address]) === null || _PAIR_ADDRESS_CACHE$t === void 0 ? void 0 : _PAIR_ADDRESS_CACHE$t[tokens[1].address]) === undefined) {
       var _PAIR_ADDRESS_CACHE2, _extends2, _extends3;
 
-      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = address.getCreate2Address(FACTORY_ADDRESS, solidity.keccak256(['bytes'], [solidity.pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH), _extends2)), _extends3));
+      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = address.getCreate2Address(FACTORY_ADDRESS_MAP[tokens[0].chainId], solidity.keccak256(['bytes'], [solidity.pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH_MAP[tokens[0].chainId]), _extends2)), _extends3));
     }
 
     return PAIR_ADDRESS_CACHE[tokens[0].address][tokens[1].address];
@@ -1574,11 +1572,9 @@ exports.JSBI = JSBI;
 exports.Currency = Currency;
 exports.CurrencyAmount = CurrencyAmount;
 exports.ETHER = ETHER;
-exports.FACTORY_ADDRESS = FACTORY_ADDRESS;
 exports.FACTORY_ADDRESS_MAP = FACTORY_ADDRESS_MAP;
 exports.Fetcher = Fetcher;
 exports.Fraction = Fraction;
-exports.INIT_CODE_HASH = INIT_CODE_HASH;
 exports.INIT_CODE_HASH_MAP = INIT_CODE_HASH_MAP;
 exports.InsufficientInputAmountError = InsufficientInputAmountError;
 exports.InsufficientReservesError = InsufficientReservesError;
