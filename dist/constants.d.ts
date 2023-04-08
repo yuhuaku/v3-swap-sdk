@@ -39,3 +39,4 @@ export declare const SOLIDITY_TYPE_MAXIMA: {
     uint8: JSBI;
     uint256: JSBI;
 };
+export declare const MaxUint256: JSBI;

@@ -1,13 +1,13 @@
 import { Contract } from '@ethersproject/contracts'
 import { getNetwork } from '@ethersproject/networks'
 import { getDefaultProvider } from '@ethersproject/providers'
-import { TokenAmount } from './entities/fractions/tokenAmount'
 import { Pair } from './entities/pair'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import invariant from 'tiny-invariant'
 import ERC20 from './abis/ERC20.json'
 import { ChainId } from './constants'
 import { Token } from './entities/token'
+import {CurrencyAmount} from "entities";
 
 let TOKEN_DECIMALS_CACHE: { [chainId: number]: { [address: string]: number } } = {
   [ChainId.MAINNET]: {
@@ -33,25 +33,25 @@ export abstract class Fetcher {
    * @param name optional name of the token
    */
   public static async fetchTokenData(
-    chainId: ChainId,
-    address: string,
-    provider = getDefaultProvider(getNetwork(chainId)),
-    symbol?: string,
-    name?: string
+      chainId: ChainId,
+      address: string,
+      provider = getDefaultProvider(getNetwork(chainId)),
+      symbol: string,
+      name?: string
   ): Promise<Token> {
     const parsedDecimals =
-      typeof TOKEN_DECIMALS_CACHE?.[chainId]?.[address] === 'number'
-        ? TOKEN_DECIMALS_CACHE[chainId][address]
-        : await new Contract(address, ERC20, provider).decimals().then((decimals: number): number => {
-            TOKEN_DECIMALS_CACHE = {
-              ...TOKEN_DECIMALS_CACHE,
-              [chainId]: {
-                ...TOKEN_DECIMALS_CACHE?.[chainId],
-                [address]: decimals
+        typeof TOKEN_DECIMALS_CACHE?.[chainId]?.[address] === 'number'
+            ? TOKEN_DECIMALS_CACHE[chainId][address]
+            : await new Contract(address, ERC20, provider).decimals().then((decimals: number): number => {
+              TOKEN_DECIMALS_CACHE = {
+                ...TOKEN_DECIMALS_CACHE,
+                [chainId]: {
+                  ...TOKEN_DECIMALS_CACHE?.[chainId],
+                  [address]: decimals,
+                },
               }
-            }
-            return decimals
-          })
+              return decimals
+            })
     return new Token(chainId, address, parsedDecimals, symbol, name)
   }
 
@@ -70,6 +70,9 @@ export abstract class Fetcher {
     const address = Pair.getAddress(tokenA, tokenB)
     const [reserves0, reserves1] = await new Contract(address, IUniswapV2Pair.abi, provider).getReserves()
     const balances = tokenA.sortsBefore(tokenB) ? [reserves0, reserves1] : [reserves1, reserves0]
-    return new Pair(new TokenAmount(tokenA, balances[0]), new TokenAmount(tokenB, balances[1]))
+    return new Pair(
+        CurrencyAmount.fromRawAmount(tokenA, balances[0]),
+        CurrencyAmount.fromRawAmount(tokenB, balances[1])
+    )
   }
 }

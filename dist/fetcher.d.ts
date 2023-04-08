@@ -17,7 +17,7 @@ export declare abstract class Fetcher {
      * @param symbol optional symbol of the token
      * @param name optional name of the token
      */
-    static fetchTokenData(chainId: ChainId, address: string, provider?: import("@ethersproject/providers").BaseProvider, symbol?: string, name?: string): Promise<Token>;
+    static fetchTokenData(chainId: ChainId, address: string, provider: import("@ethersproject/providers").BaseProvider | undefined, symbol: string, name?: string): Promise<Token>;
     /**
      * Fetches information about a pair and constructs a pair from the given two tokens.
      * @param tokenA first token

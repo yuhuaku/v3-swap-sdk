@@ -1,17 +1,30 @@
-import { ChainId } from '../constants';
+import { BaseCurrency } from './baseCurrency';
 import { Currency } from './currency';
+export interface SerializedToken {
+    chainId: number;
+    address: string;
+    decimals: number;
+    symbol: string;
+    name?: string;
+    projectLink?: string;
+}
 /**
  * Represents an ERC20 token with a unique address and some metadata.
  */
-export declare class Token extends Currency {
-    readonly chainId: ChainId;
+export declare class Token extends BaseCurrency {
+    readonly isNative: false;
+    readonly isToken: true;
+    /**
+     * The contract address on the chain on which this token lives
+     */
     readonly address: string;
-    constructor(chainId: ChainId, address: string, decimals: number, symbol?: string, name?: string);
+    readonly projectLink?: string;
+    constructor(chainId: number, address: string, decimals: number, symbol: string, name?: string, projectLink?: string);
     /**
      * Returns true if the two tokens are equivalent, i.e. have the same chainId and address.
      * @param other other token to compare
      */
-    equals(other: Token): boolean;
+    equals(other: Currency): boolean;
     /**
      * Returns true if the address of this token sorts before the address of the other token
      * @param other other token to compare
@@ -19,14 +32,9 @@ export declare class Token extends Currency {
      * @throws if the tokens are on different chains
      */
     sortsBefore(other: Token): boolean;
+    /**
+     * Return this token, which does not need to be wrapped
+     */
+    get wrapped(): Token;
+    get serialize(): SerializedToken;
 }
-/**
- * Compares two currencies for equality
- */
-export declare function currencyEquals(currencyA: Currency, currencyB: Currency): boolean;
-export declare const WETH: {
-    1: Token;
-    5: Token;
-    11155111: Token;
-    1337: Token;
-};

@@ -1,4 +1,5 @@
-import { Percent, Trade } from './entities';
+import { Currency, Percent, Trade } from './entities';
+import { TradeType } from './constants';
 /**
  * Options for producing the arguments to send call to the router.
  */
@@ -30,11 +31,11 @@ export interface TradeOptionsDeadline extends Omit<TradeOptions, 'ttl'> {
     deadline: number;
 }
 /**
- * The parameters to use in the call to the Uniswap V2 Router to execute a trade.
+ * The parameters to use in the call to the Pancake Router to execute a trade.
  */
 export interface SwapParameters {
     /**
-     * The method to call on the Uniswap V2 Router.
+     * The method to call on the Pancake Router.
      */
     methodName: string;
     /**
@@ -47,17 +48,13 @@ export interface SwapParameters {
     value: string;
 }
 /**
- * Represents the Uniswap V2 Router, and has static methods for helping execute trades.
+ * Represents the Pancake Router, and has static methods for helping execute trades.
  */
 export declare abstract class Router {
-    /**
-     * Cannot be constructed.
-     */
-    private constructor();
     /**
      * Produces the on-chain method name to call and the hex encoded parameters to pass as arguments for a given trade.
      * @param trade to produce call parameters for
      * @param options options for the call parameters
      */
-    static swapCallParameters(trade: Trade, options: TradeOptions | TradeOptionsDeadline): SwapParameters;
+    static swapCallParameters(trade: Trade<Currency, Currency, TradeType>, options: TradeOptions | TradeOptionsDeadline): SwapParameters;
 }

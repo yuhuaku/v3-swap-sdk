@@ -1,19 +1,31 @@
-import { Currency } from '../currency';
 import JSBI from 'jsbi';
-import { BigintIsh, Rounding } from '../../constants';
+import { Currency } from '../currency';
+import { Token } from '../token';
 import { Fraction } from './fraction';
-export declare class CurrencyAmount extends Fraction {
-    readonly currency: Currency;
+import { BigintIsh, Rounding } from '../../constants';
+export declare class CurrencyAmount<T extends Currency> extends Fraction {
+    readonly currency: T;
+    readonly decimalScale: JSBI;
     /**
-     * Helper that calls the constructor with the ETHER currency
-     * @param amount ether amount in wei
+     * Returns a new currency amount instance from the unitless amount of token, i.e. the raw amount
+     * @param currency the currency in the amount
+     * @param rawAmount the raw token or ether amount
      */
-    static ether(amount: BigintIsh): CurrencyAmount;
-    protected constructor(currency: Currency, amount: BigintIsh);
-    get raw(): JSBI;
-    add(other: CurrencyAmount): CurrencyAmount;
-    subtract(other: CurrencyAmount): CurrencyAmount;
+    static fromRawAmount<T extends Currency>(currency: T, rawAmount: BigintIsh): CurrencyAmount<T>;
+    /**
+     * Construct a currency amount with a denominator that is not equal to 1
+     * @param currency the currency
+     * @param numerator the numerator of the fractional token amount
+     * @param denominator the denominator of the fractional token amount
+     */
+    static fromFractionalAmount<T extends Currency>(currency: T, numerator: BigintIsh, denominator: BigintIsh): CurrencyAmount<T>;
+    protected constructor(currency: T, numerator: BigintIsh, denominator?: BigintIsh);
+    add(other: CurrencyAmount<T>): CurrencyAmount<T>;
+    subtract(other: CurrencyAmount<T>): CurrencyAmount<T>;
+    multiply(other: Fraction | BigintIsh): CurrencyAmount<T>;
+    divide(other: Fraction | BigintIsh): CurrencyAmount<T>;
     toSignificant(significantDigits?: number, format?: object, rounding?: Rounding): string;
     toFixed(decimalPlaces?: number, format?: object, rounding?: Rounding): string;
     toExact(format?: object): string;
+    get wrapped(): CurrencyAmount<Token>;
 }
