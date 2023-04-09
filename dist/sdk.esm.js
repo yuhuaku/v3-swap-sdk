@@ -1400,6 +1400,25 @@ var Trade = /*#__PURE__*/function () {
   return Trade;
 }();
 
+/**
+ * Represents the native currency of the chain on which it resides, e.g.
+ */
+
+var NativeCurrency = /*#__PURE__*/function (_BaseCurrency) {
+  _inheritsLoose(NativeCurrency, _BaseCurrency);
+
+  function NativeCurrency() {
+    var _this;
+
+    _this = _BaseCurrency.apply(this, arguments) || this;
+    _this.isNative = true;
+    _this.isToken = false;
+    return _this;
+  }
+
+  return NativeCurrency;
+}(BaseCurrency);
+
 function toHex(currencyAmount) {
   return "0x" + currencyAmount.quotient.toString(16);
 }
@@ -1599,5 +1618,5 @@ var Fetcher = /*#__PURE__*/function () {
   return Fetcher;
 }();
 
-export { ChainId, CurrencyAmount, FACTORY_ADDRESS_MAP, Fetcher, Fraction, INIT_CODE_HASH_MAP, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, Pair, Percent, Price, Rounding, Route, Router, Token, Trade, TradeType, computePairAddress, inputOutputComparator, tradeComparator };
+export { ChainId, CurrencyAmount, FACTORY_ADDRESS_MAP, Fetcher, Fraction, INIT_CODE_HASH_MAP, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, NativeCurrency, Pair, Percent, Price, Rounding, Route, Router, Token, Trade, TradeType, computePairAddress, inputOutputComparator, tradeComparator };
 //# sourceMappingURL=sdk.esm.js.map

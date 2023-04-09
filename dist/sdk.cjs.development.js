@@ -1400,6 +1400,25 @@ var Trade = /*#__PURE__*/function () {
   return Trade;
 }();
 
+/**
+ * Represents the native currency of the chain on which it resides, e.g.
+ */
+
+var NativeCurrency = /*#__PURE__*/function (_BaseCurrency) {
+  _inheritsLoose(NativeCurrency, _BaseCurrency);
+
+  function NativeCurrency() {
+    var _this;
+
+    _this = _BaseCurrency.apply(this, arguments) || this;
+    _this.isNative = true;
+    _this.isToken = false;
+    return _this;
+  }
+
+  return NativeCurrency;
+}(BaseCurrency);
+
 function toHex(currencyAmount) {
   return "0x" + currencyAmount.quotient.toString(16);
 }
@@ -1608,6 +1627,7 @@ exports.INIT_CODE_HASH_MAP = INIT_CODE_HASH_MAP;
 exports.InsufficientInputAmountError = InsufficientInputAmountError;
 exports.InsufficientReservesError = InsufficientReservesError;
 exports.MINIMUM_LIQUIDITY = MINIMUM_LIQUIDITY;
+exports.NativeCurrency = NativeCurrency;
 exports.Pair = Pair;
 exports.Percent = Percent;
 exports.Price = Price;
