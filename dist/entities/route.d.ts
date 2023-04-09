@@ -1,7 +1,7 @@
 import { Pair } from './pair';
-import { Currency } from "entities/currency";
-import { Token } from "entities/token";
-import { Price } from "entities/fractions";
+import { Currency } from '../entities/currency';
+import { Token } from '../entities/token';
+import { Price } from '../entities/fractions';
 export declare class Route<TInput extends Currency, TOutput extends Currency> {
     readonly pairs: Pair[];
     readonly path: Token[];

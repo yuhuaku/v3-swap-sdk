@@ -1,6 +1,6 @@
 import { BigintIsh } from '../constants';
-import { Token } from "entities/token";
-import { CurrencyAmount, Price } from "entities/fractions";
+import { Token } from '../entities/token';
+import { CurrencyAmount, Price } from '../entities/fractions';
 export declare const computePairAddress: ({ factoryAddress, tokenA, tokenB }: {
     factoryAddress: string;
     tokenA: Token;

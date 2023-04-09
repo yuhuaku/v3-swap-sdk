@@ -5,9 +5,9 @@ import { getCreate2Address } from '@ethersproject/address'
 
 import {FACTORY_ADDRESS_MAP, INIT_CODE_HASH_MAP, MINIMUM_LIQUIDITY, FIVE, _997, _1000, ONE, ZERO, BigintIsh} from '../constants'
 import { InsufficientReservesError, InsufficientInputAmountError } from '../errors'
-import {Token} from "entities/token";
-import {CurrencyAmount, Price} from "entities/fractions";
-import {sqrt} from "utils";
+import { Token } from '../entities/token';
+import { CurrencyAmount, Price } from '../entities/fractions';
+import { sqrt } from '../utils';
 
 export const computePairAddress = ({
                                        factoryAddress,
