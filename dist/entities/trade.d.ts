@@ -1,8 +1,8 @@
 import { TradeType } from '../constants';
 import { Pair } from './pair';
 import { Route } from './route';
-import { Currency } from "entities/currency";
-import { CurrencyAmount, Percent, Price } from "entities/fractions";
+import { Currency } from 'entities/currency';
+import { CurrencyAmount, Percent, Price } from 'entities/fractions';
 interface InputOutput<TInput extends Currency, TOutput extends Currency> {
     readonly inputAmount: CurrencyAmount<TInput>;
     readonly outputAmount: CurrencyAmount<TOutput>;

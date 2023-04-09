@@ -11,11 +11,11 @@ var address = require('@ethersproject/address');
 var token = require('entities/token');
 var fractions = require('entities/fractions');
 var utils = require('utils');
+var warning = _interopDefault(require('tiny-warning'));
+var entities = require('entities');
 var _Decimal = _interopDefault(require('decimal.js-light'));
 var _Big = _interopDefault(require('big.js'));
 var toFormat = _interopDefault(require('toformat'));
-var warning = _interopDefault(require('tiny-warning'));
-var entities = require('entities');
 var contracts = require('@ethersproject/contracts');
 var networks = require('@ethersproject/networks');
 var providers = require('@ethersproject/providers');
@@ -628,6 +628,66 @@ var Route = /*#__PURE__*/function () {
   return Route;
 }();
 
+function validateAndParseAddress(address$1) {
+  try {
+    var checksummedAddress = address.getAddress(address$1);
+    "development" !== "production" ? warning(address$1 === checksummedAddress, address$1 + " is not checksummed.") : void 0;
+    return checksummedAddress;
+  } catch (error) {
+      invariant(false, address$1 + " is not a valid address.")  ;
+  }
+}
+function parseBigintIsh(bigintIsh) {
+  return bigintIsh instanceof JSBI ? bigintIsh : typeof bigintIsh === 'bigint' ? JSBI.BigInt(bigintIsh.toString()) : JSBI.BigInt(bigintIsh);
+} // mock the on-chain sqrt function
+// `maxSize` by removing the last item
+
+function sortedInsert(items, add, maxSize, comparator) {
+  !(maxSize > 0) ?  invariant(false, 'MAX_SIZE_ZERO')  : void 0; // this is an invariant because the interface cannot return multiple removed items if items.length exceeds maxSize
+
+  !(items.length <= maxSize) ?  invariant(false, 'ITEMS_SIZE')  : void 0; // short circuit first item add
+
+  if (items.length === 0) {
+    items.push(add);
+    return null;
+  } else {
+    var isFull = items.length === maxSize; // short circuit if full and the additional item does not come before the last item
+
+    if (isFull && comparator(items[items.length - 1], add) <= 0) {
+      return add;
+    }
+
+    var lo = 0,
+        hi = items.length;
+
+    while (lo < hi) {
+      var mid = lo + hi >>> 1;
+
+      if (comparator(items[mid], add) <= 0) {
+        lo = mid + 1;
+      } else {
+        hi = mid;
+      }
+    }
+
+    items.splice(lo, 0, add);
+    return isFull ? items.pop() : null;
+  }
+}
+/**
+ * Returns the percent difference between the mid price and the execution price, i.e. price impact.
+ * @param midPrice mid price before the trade
+ * @param inputAmount the input amount of the trade
+ * @param outputAmount the output amount of the trade
+ */
+
+function computePriceImpact(midPrice, inputAmount, outputAmount) {
+  var quotedOutputAmount = midPrice.quote(inputAmount); // calculate price impact := (exactQuote - outputAmount) / exactQuote
+
+  var priceImpact = quotedOutputAmount.subtract(outputAmount).divide(quotedOutputAmount);
+  return new entities.Percent(priceImpact.numerator, priceImpact.denominator);
+}
+
 // in increasing order. i.e. the best trades have the most outputs for the least inputs and are sorted first
 
 function inputOutputComparator(a, b) {
@@ -717,7 +777,7 @@ var Trade = /*#__PURE__*/function () {
     }
 
     this.executionPrice = new fractions.Price(this.inputAmount.currency, this.outputAmount.currency, this.inputAmount.quotient, this.outputAmount.quotient);
-    this.priceImpact = utils.computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
+    this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
   }
   /**
    * Constructs an exact in trade with the given amount in and route
@@ -839,7 +899,7 @@ var Trade = /*#__PURE__*/function () {
 
 
       if (amountOut.currency.equals(tokenOut)) {
-        utils.sortedInsert(bestTrades, new Trade(new Route([].concat(currentPairs, [pair]), currencyAmountIn.currency, currencyOut), currencyAmountIn, exports.TradeType.EXACT_INPUT), maxNumResults, tradeComparator);
+        sortedInsert(bestTrades, new Trade(new Route([].concat(currentPairs, [pair]), currencyAmountIn.currency, currencyOut), currencyAmountIn, exports.TradeType.EXACT_INPUT), maxNumResults, tradeComparator);
       } else if (maxHops > 1 && pairs.length > 1) {
         var pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length)); // otherwise, consider all the other paths that lead from this token as long as we have not exceeded maxHops
 
@@ -928,7 +988,7 @@ var Trade = /*#__PURE__*/function () {
 
 
       if (amountIn.currency.equals(tokenIn)) {
-        utils.sortedInsert(bestTrades, new Trade(new Route([pair].concat(currentPairs), currencyIn, currencyAmountOut.currency), currencyAmountOut, exports.TradeType.EXACT_OUTPUT), maxNumResults, tradeComparator);
+        sortedInsert(bestTrades, new Trade(new Route([pair].concat(currentPairs), currencyIn, currencyAmountOut.currency), currencyAmountOut, exports.TradeType.EXACT_OUTPUT), maxNumResults, tradeComparator);
       } else if (maxHops > 1 && pairs.length > 1) {
         var pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length)); // otherwise, consider all the other paths that arrive at this token as long as we have not exceeded maxHops
 
@@ -944,19 +1004,6 @@ var Trade = /*#__PURE__*/function () {
 
   return Trade;
 }();
-
-function validateAndParseAddress(address$1) {
-  try {
-    var checksummedAddress = address.getAddress(address$1);
-    "development" !== "production" ? warning(address$1 === checksummedAddress, address$1 + " is not checksummed.") : void 0;
-    return checksummedAddress;
-  } catch (error) {
-      invariant(false, address$1 + " is not a valid address.")  ;
-  }
-}
-function parseBigintIsh(bigintIsh) {
-  return bigintIsh instanceof JSBI ? bigintIsh : typeof bigintIsh === 'bigint' ? JSBI.BigInt(bigintIsh.toString()) : JSBI.BigInt(bigintIsh);
-} // mock the on-chain sqrt function
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);

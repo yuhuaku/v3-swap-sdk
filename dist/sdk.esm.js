@@ -5,12 +5,12 @@ import { keccak256, pack } from '@ethersproject/solidity';
 import { getCreate2Address, getAddress } from '@ethersproject/address';
 import { Token as Token$1 } from 'entities/token';
 import { CurrencyAmount as CurrencyAmount$1, Price as Price$1, Fraction as Fraction$1 } from 'entities/fractions';
-import { sqrt, computePriceImpact, sortedInsert } from 'utils';
+import { sqrt } from 'utils';
+import warning from 'tiny-warning';
+import { Percent as Percent$1, CurrencyAmount as CurrencyAmount$2 } from 'entities';
 import _Decimal from 'decimal.js-light';
 import _Big from 'big.js';
 import toFormat from 'toformat';
-import warning from 'tiny-warning';
-import { CurrencyAmount as CurrencyAmount$2 } from 'entities';
 import { Contract } from '@ethersproject/contracts';
 import { getNetwork } from '@ethersproject/networks';
 import { getDefaultProvider } from '@ethersproject/providers';
@@ -628,6 +628,66 @@ var Route = /*#__PURE__*/function () {
   return Route;
 }();
 
+function validateAndParseAddress(address) {
+  try {
+    var checksummedAddress = getAddress(address);
+    process.env.NODE_ENV !== "production" ? warning(address === checksummedAddress, address + " is not checksummed.") : void 0;
+    return checksummedAddress;
+  } catch (error) {
+     process.env.NODE_ENV !== "production" ? invariant(false, address + " is not a valid address.") : invariant(false) ;
+  }
+}
+function parseBigintIsh(bigintIsh) {
+  return bigintIsh instanceof JSBI ? bigintIsh : typeof bigintIsh === 'bigint' ? JSBI.BigInt(bigintIsh.toString()) : JSBI.BigInt(bigintIsh);
+} // mock the on-chain sqrt function
+// `maxSize` by removing the last item
+
+function sortedInsert(items, add, maxSize, comparator) {
+  !(maxSize > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'MAX_SIZE_ZERO') : invariant(false) : void 0; // this is an invariant because the interface cannot return multiple removed items if items.length exceeds maxSize
+
+  !(items.length <= maxSize) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ITEMS_SIZE') : invariant(false) : void 0; // short circuit first item add
+
+  if (items.length === 0) {
+    items.push(add);
+    return null;
+  } else {
+    var isFull = items.length === maxSize; // short circuit if full and the additional item does not come before the last item
+
+    if (isFull && comparator(items[items.length - 1], add) <= 0) {
+      return add;
+    }
+
+    var lo = 0,
+        hi = items.length;
+
+    while (lo < hi) {
+      var mid = lo + hi >>> 1;
+
+      if (comparator(items[mid], add) <= 0) {
+        lo = mid + 1;
+      } else {
+        hi = mid;
+      }
+    }
+
+    items.splice(lo, 0, add);
+    return isFull ? items.pop() : null;
+  }
+}
+/**
+ * Returns the percent difference between the mid price and the execution price, i.e. price impact.
+ * @param midPrice mid price before the trade
+ * @param inputAmount the input amount of the trade
+ * @param outputAmount the output amount of the trade
+ */
+
+function computePriceImpact(midPrice, inputAmount, outputAmount) {
+  var quotedOutputAmount = midPrice.quote(inputAmount); // calculate price impact := (exactQuote - outputAmount) / exactQuote
+
+  var priceImpact = quotedOutputAmount.subtract(outputAmount).divide(quotedOutputAmount);
+  return new Percent$1(priceImpact.numerator, priceImpact.denominator);
+}
+
 // in increasing order. i.e. the best trades have the most outputs for the least inputs and are sorted first
 
 function inputOutputComparator(a, b) {
@@ -944,19 +1004,6 @@ var Trade = /*#__PURE__*/function () {
 
   return Trade;
 }();
-
-function validateAndParseAddress(address) {
-  try {
-    var checksummedAddress = getAddress(address);
-    process.env.NODE_ENV !== "production" ? warning(address === checksummedAddress, address + " is not checksummed.") : void 0;
-    return checksummedAddress;
-  } catch (error) {
-     process.env.NODE_ENV !== "production" ? invariant(false, address + " is not a valid address.") : invariant(false) ;
-  }
-}
-function parseBigintIsh(bigintIsh) {
-  return bigintIsh instanceof JSBI ? bigintIsh : typeof bigintIsh === 'bigint' ? JSBI.BigInt(bigintIsh.toString()) : JSBI.BigInt(bigintIsh);
-} // mock the on-chain sqrt function
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);

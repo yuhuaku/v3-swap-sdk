@@ -3,11 +3,11 @@ import invariant from 'tiny-invariant'
 
 import { Pair } from './pair'
 import { Route } from './route'
-import {Currency} from "entities/currency";
-import {CurrencyAmount, Fraction, Percent, Price} from "entities/fractions";
-import {Token} from "entities/token";
-import { computePriceImpact, sortedInsert } from "utils";
-import {InsufficientInputAmountError, InsufficientReservesError} from "errors";
+import { Currency } from 'entities/currency'
+import { CurrencyAmount, Fraction, Percent, Price } from 'entities/fractions'
+import { Token } from 'entities/token'
+import { computePriceImpact, sortedInsert } from '../utils'
+import { InsufficientInputAmountError, InsufficientReservesError } from 'errors'
 
 // minimal interface so the input output comparator may be shared across types
 interface InputOutput<TInput extends Currency, TOutput extends Currency> {
