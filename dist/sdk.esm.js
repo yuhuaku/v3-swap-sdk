@@ -1419,6 +1419,49 @@ var NativeCurrency = /*#__PURE__*/function (_BaseCurrency) {
   return NativeCurrency;
 }(BaseCurrency);
 
+var _WETH;
+/**
+ * Known WETH9 implementation addresses, used in our implementation of Ether#wrapped
+ */
+
+var WETH9 = (_WETH = {}, _WETH[1] = /*#__PURE__*/new Token(1, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[3] = /*#__PURE__*/new Token(3, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[4] = /*#__PURE__*/new Token(4, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[5] = /*#__PURE__*/new Token(5, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[42] = /*#__PURE__*/new Token(42, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH);
+
+/**
+ * Ether is the main usage of a 'native' currency, i.e. for Ethereum mainnet and all testnets
+ */
+
+var Ether = /*#__PURE__*/function (_NativeCurrency) {
+  _inheritsLoose(Ether, _NativeCurrency);
+
+  function Ether(chainId) {
+    return _NativeCurrency.call(this, chainId, 18, 'ETH', 'Ether') || this;
+  }
+
+  Ether.onChain = function onChain(chainId) {
+    var _this$_etherCache$cha;
+
+    return (_this$_etherCache$cha = this._etherCache[chainId]) !== null && _this$_etherCache$cha !== void 0 ? _this$_etherCache$cha : this._etherCache[chainId] = new Ether(chainId);
+  };
+
+  var _proto = Ether.prototype;
+
+  _proto.equals = function equals(other) {
+    return other.isNative && other.chainId === this.chainId;
+  };
+
+  _createClass(Ether, [{
+    key: "wrapped",
+    get: function get() {
+      var weth9 = WETH9[this.chainId];
+      !!!weth9 ? process.env.NODE_ENV !== "production" ? invariant(false, 'WRAPPED') : invariant(false) : void 0;
+      return weth9;
+    }
+  }]);
+
+  return Ether;
+}(NativeCurrency);
+Ether._etherCache = {};
+
 function toHex(currencyAmount) {
   return "0x" + currencyAmount.quotient.toString(16);
 }
@@ -1618,5 +1661,5 @@ var Fetcher = /*#__PURE__*/function () {
   return Fetcher;
 }();
 
-export { ChainId, CurrencyAmount, FACTORY_ADDRESS_MAP, Fetcher, Fraction, INIT_CODE_HASH_MAP, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, NativeCurrency, Pair, Percent, Price, Rounding, Route, Router, Token, Trade, TradeType, computePairAddress, inputOutputComparator, tradeComparator };
+export { ChainId, CurrencyAmount, Ether, FACTORY_ADDRESS_MAP, Fetcher, Fraction, INIT_CODE_HASH_MAP, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, NativeCurrency, Pair, Percent, Price, Rounding, Route, Router, Token, Trade, TradeType, computePairAddress, inputOutputComparator, tradeComparator };
 //# sourceMappingURL=sdk.esm.js.map
