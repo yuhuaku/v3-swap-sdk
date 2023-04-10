@@ -12,11 +12,11 @@ var _Decimal = _interopDefault(require('decimal.js-light'));
 var _Big = _interopDefault(require('big.js'));
 var toFormat = _interopDefault(require('toformat'));
 var warning = _interopDefault(require('tiny-warning'));
-var entities = require('entities');
 var contracts = require('@ethersproject/contracts');
 var networks = require('@ethersproject/networks');
 var providers = require('@ethersproject/providers');
 var IUniswapV2Pair = _interopDefault(require('@uniswap/v2-core/build/IUniswapV2Pair.json'));
+var entities = require('entities');
 
 var _FACTORY_ADDRESS_MAP, _INIT_CODE_HASH_MAP, _SOLIDITY_TYPE_MAXIMA;
 
@@ -448,7 +448,7 @@ function computePriceImpact(midPrice, inputAmount, outputAmount) {
   var quotedOutputAmount = midPrice.quote(inputAmount); // calculate price impact := (exactQuote - outputAmount) / exactQuote
 
   var priceImpact = quotedOutputAmount.subtract(outputAmount).divide(quotedOutputAmount);
-  return new entities.Percent(priceImpact.numerator, priceImpact.denominator);
+  return new Percent(priceImpact.numerator, priceImpact.denominator);
 }
 
 var _toSignificantRoundin, _toFixedRounding;

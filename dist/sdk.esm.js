@@ -7,11 +7,11 @@ import _Decimal from 'decimal.js-light';
 import _Big from 'big.js';
 import toFormat from 'toformat';
 import warning from 'tiny-warning';
-import { Percent as Percent$1, CurrencyAmount as CurrencyAmount$1 } from 'entities';
 import { Contract } from '@ethersproject/contracts';
 import { getNetwork } from '@ethersproject/networks';
 import { getDefaultProvider } from '@ethersproject/providers';
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json';
+import { CurrencyAmount as CurrencyAmount$1 } from 'entities';
 
 var _FACTORY_ADDRESS_MAP, _INIT_CODE_HASH_MAP, _SOLIDITY_TYPE_MAXIMA;
 var ChainId;
@@ -448,7 +448,7 @@ function computePriceImpact(midPrice, inputAmount, outputAmount) {
   var quotedOutputAmount = midPrice.quote(inputAmount); // calculate price impact := (exactQuote - outputAmount) / exactQuote
 
   var priceImpact = quotedOutputAmount.subtract(outputAmount).divide(quotedOutputAmount);
-  return new Percent$1(priceImpact.numerator, priceImpact.denominator);
+  return new Percent(priceImpact.numerator, priceImpact.denominator);
 }
 
 var _toSignificantRoundin, _toFixedRounding;

@@ -4,7 +4,7 @@ import JSBI from 'jsbi'
 import { getAddress } from '@ethersproject/address'
 
 import { BigintIsh, ZERO, ONE, TWO, THREE, SolidityType, SOLIDITY_TYPE_MAXIMA } from './constants'
-import {Currency, CurrencyAmount, Percent, Price} from "entities";
+import {Currency, CurrencyAmount, Percent, Price} from './entities'
 
 export function validateSolidityTypeInstance(value: JSBI, solidityType: SolidityType): void {
   invariant(JSBI.greaterThanOrEqual(value, ZERO), `${value} is not a ${solidityType}.`)

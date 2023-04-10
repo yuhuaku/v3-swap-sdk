@@ -1,6 +1,6 @@
 import JSBI from 'jsbi';
 import { BigintIsh, SolidityType } from './constants';
-import { Currency, CurrencyAmount, Percent, Price } from "entities";
+import { Currency, CurrencyAmount, Percent, Price } from './entities';
 export declare function validateSolidityTypeInstance(value: JSBI, solidityType: SolidityType): void;
 export declare function validateAndParseAddress(address: string): string;
 export declare function parseBigintIsh(bigintIsh: BigintIsh): JSBI;
